@@ -79,7 +79,7 @@ int main(int argc, char **argv) {
 	bool quit = false; // quit variable. if true quits and exits application
 	
 	
-	bool alarmset = false; 
+	
 	int alarmhour = 0; 
 	int alarmminute = 0;
 	int alarmampm = 0;
@@ -103,7 +103,13 @@ int main(int argc, char **argv) {
 	//SDL_Surface* miceImage = IMG_Load("romfs:/mymice-500x500.jpg");
 	//SDL_Texture* miceTexture = SDL_CreateTextureFromSurface(renderer, miceImage);
 
+		
 	
+	//alarm texts
+	bool alarmset = false; 
+	char alarmsettext[100] = "alarm";
+	const char* alarmsetonoff = "Off";	
+		
 	while(appletMainLoop() && !quit) { //main game loop
 		
 		
@@ -177,8 +183,6 @@ int main(int argc, char **argv) {
 		
 		
 		
-		//load everything
-		SDL_RenderPresent(renderer); 
 		
 		u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
 		
@@ -215,6 +219,32 @@ int main(int argc, char **argv) {
 		
 		
 		
+		//alarm set text
+		//bool alarmset = false; 
+		//char alarmsettext[100] = "alarm";
+		//const char* alarmsetonoff = "Off";		
+		if (kDown & KEY_A) {
+		alarmsetonoff = "On";	
+		alarmset = true; 
+		}
+		
+		if (kDown & KEY_X) {
+		alarmsetonoff = "Off";	
+		alarmset = false; 
+		}
+		
+		snprintf(alarmsettext, 100, "Alarm is %s", alarmsetonoff);	
+		SDL_Surface* sAlarmSet = TTF_RenderText_Solid(font, alarmsettext, Aqua); 
+		SDL_Texture* tAlarmSet = SDL_CreateTextureFromSurface(renderer, sAlarmSet); //now you can convert it into a texture
+		SDL_Rect AlarmSet_rect; //create a rect
+		AlarmSet_rect.x = SCREEN_WIDTH / 2;  //controls the rect's x coordinate 
+		AlarmSet_rect.y = (SCREEN_HEIGHT / 2) + 300; // controls the rect's y coordinte
+		AlarmSet_rect.w = 230; // controls the width of the rect
+		AlarmSet_rect.h = 103; // controls the height of the rect
+		SDL_FreeSurface(sAlarmSet);
+		SDL_RenderCopy(renderer, tAlarmSet, NULL, &AlarmSet_rect);
+		SDL_DestroyTexture(tAlarmSet);
+		
 		
 		//quit by press plus button
 		if (kDown & KEY_PLUS) {
@@ -222,6 +252,11 @@ int main(int argc, char **argv) {
 		break; 
 		}
 
+		
+		
+		
+		//load everything
+		SDL_RenderPresent(renderer); 
 			
 
 	}
