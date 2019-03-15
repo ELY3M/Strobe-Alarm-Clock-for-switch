@@ -41,9 +41,91 @@ const char* const weekDays[7] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Th
 
 void Initialize(SDL_Renderer **ren, SDL_Window **win);
 void Cleanup(SDL_Renderer **ren, SDL_Window **win);
-
-
 SDL_Rect charRect[3][26];
+
+
+
+//strobe functions 
+void NavyScreen(int w, int h, SDL_Window *window, SDL_Renderer *renderer) {
+
+	SDL_RenderClear(renderer);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 128, 255);
+    SDL_GetWindowSize(window, &w, &h);
+    SDL_Rect f = {0, 0, w, h};
+    SDL_RenderFillRect(renderer, &f);
+	SDL_RenderPresent(renderer);
+	
+}
+
+void CyanScreen(int w, int h, SDL_Window *window, SDL_Renderer *renderer) {
+
+	SDL_RenderClear(renderer);
+	SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
+    SDL_GetWindowSize(window, &w, &h);
+    SDL_Rect f = {0, 0, w, h};
+    SDL_RenderFillRect(renderer, &f);
+	SDL_RenderPresent(renderer);
+	
+}
+
+void BlackScreen(int w, int h, SDL_Window *window, SDL_Renderer *renderer) {
+	SDL_RenderClear(renderer);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_GetWindowSize(window, &w, &h);
+    SDL_Rect f = {0, 0, w, h};
+    SDL_RenderFillRect(renderer, &f);
+	SDL_RenderPresent(renderer);
+	
+}
+
+
+void GreenScreen(int w, int h, SDL_Window *window, SDL_Renderer *renderer) {
+	SDL_RenderClear(renderer);
+	SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+    SDL_GetWindowSize(window, &w, &h);
+    SDL_Rect f = {0, 0, w, h};
+    SDL_RenderFillRect(renderer, &f);
+	SDL_RenderPresent(renderer);
+	
+}
+
+
+void GlowScreen(int w, int h, SDL_Window *window, SDL_Renderer *renderer) {
+	SDL_RenderClear(renderer);
+	SDL_SetRenderDrawColor(renderer, 213, 236, 153, 255);
+    SDL_GetWindowSize(window, &w, &h);
+    SDL_Rect f = {0, 0, w, h};
+    SDL_RenderFillRect(renderer, &f);
+	SDL_RenderPresent(renderer);
+	
+}
+
+void WhiteScreen(int w, int h, SDL_Window *window, SDL_Renderer *renderer) {
+	SDL_RenderClear(renderer);
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_GetWindowSize(window, &w, &h);
+    SDL_Rect f = {0, 0, w, h};
+    SDL_RenderFillRect(renderer, &f);
+	SDL_RenderPresent(renderer);
+	
+}
+
+
+
+void Strobe(int w, int h, SDL_Window *window, SDL_Renderer *renderer) {
+	
+
+CyanScreen(w, h, window, renderer);
+BlackScreen(w, h, window, renderer);
+GreenScreen(w, h, window, renderer);
+GlowScreen(w, h, window, renderer);
+WhiteScreen(w, h, window, renderer);
+NavyScreen(w, h, window, renderer);	
+
+} 
+
+
+
 
 
 
@@ -246,6 +328,13 @@ int main(int argc, char **argv) {
 		SDL_DestroyTexture(tAlarmSet);
 		
 		
+		if (alarmset == true) {
+	    if (hours == alarmhour && minutes == alarmminute) {
+        Strobe(SCREEN_WIDTH, SCREEN_HEIGHT, window, renderer);
+		}
+		}
+			
+			
 		//quit by press plus button
 		if (kDown & KEY_PLUS) {
 		quit = true; 
