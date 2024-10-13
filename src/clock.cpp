@@ -160,8 +160,6 @@ void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y, int w=-1, 
 
 int main(int argc, char **argv) {
 	
-    consoleInit(NULL);
-	setInitialize();
 	romfsInit();
 	SDL_Init(SDL_INIT_EVERYTHING); //init sdl
 	IMG_Init(IMG_INIT_JPG); //init image lib
@@ -346,8 +344,7 @@ int main(int argc, char **argv) {
 			
 		//quit by press plus button
 		if (kDown & HidNpadButton_Plus) {
-		quit = true;
-		consoleUpdate(NULL);		
+		quit = true;		
 		break; 
 		}
 
@@ -366,6 +363,5 @@ int main(int argc, char **argv) {
 	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
-	consoleExit(NULL);
 	return 0;
 }
