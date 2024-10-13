@@ -1,6 +1,5 @@
 # Strobe Alarm Clock for Nintendo Switch
 
-
 you set alarm time to flash your switch screen.      
 
 TODO: 
