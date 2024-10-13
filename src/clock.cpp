@@ -8,10 +8,17 @@ ELY M.
 
 
 //includes
+/*
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+*/
+
+#include <SDL.h>
+#include <SDL_events.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
 
 #include <switch.h>
 #include <iostream>
@@ -153,13 +160,18 @@ void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y, int w=-1, 
 
 int main(int argc, char **argv) {
 	
-
+    consoleInit(NULL);
+	setInitialize();
 	romfsInit();
 	SDL_Init(SDL_INIT_EVERYTHING); //init sdl
 	IMG_Init(IMG_INIT_JPG); //init image lib
 	
 	bool quit = false; // quit variable. if true quits and exits application
 	
+	//controller
+    padConfigureInput(1, HidNpadStyleSet_NpadStandard);
+    PadState pad;
+    padInitializeDefault(&pad);
 	
 	
 	int alarmhour = 0; 
@@ -194,9 +206,6 @@ int main(int argc, char **argv) {
 		
 	while(appletMainLoop() && !quit) { //main game loop
 		
-		
-		//Scan all the inputs. This should be done once for each frame
-		hidScanInput();
 		
 		//clear screen every update//
 		SDL_RenderClear(renderer);
@@ -264,20 +273,20 @@ int main(int argc, char **argv) {
 		//renderTexture(miceTexture, renderer, 300, 300, SCREEN_WIDTH, SCREEN_HEIGHT); //render the splash screen
 		
 		
-		
-		
-		u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
+		//scan inputs
+        padUpdate(&pad);
+        u64 kDown = padGetButtonsDown(&pad);		
 		
 		
 		//alarm setting
-		if (kDown & KEY_UP) {
+		if (kDown & HidNpadButton_Up) {
 		alarmhour++; 
 		if (alarmhour >= 24) {
 			alarmhour = 0; 
 		}
 		}
 		
-		if (kDown & KEY_DOWN) {
+		if (kDown & HidNpadButton_Down) {
 		alarmhour--; 
 		if (alarmhour <= -1) {
 			alarmhour = 0; 
@@ -285,14 +294,14 @@ int main(int argc, char **argv) {
 		}
 		
 	
-	    if (kDown & KEY_RIGHT) {
+	    if (kDown & HidNpadButton_Right) {
 		alarmminute++; 
 		if (alarmminute >= 60) {
 			alarmminute = 0; 
 		}
 		}
 		
-		if (kDown & KEY_LEFT) {
+		if (kDown & HidNpadButton_Left) {
 		alarmminute--; 
 		if (alarmminute <= -1) {
 			alarmminute = 0; 
@@ -305,12 +314,12 @@ int main(int argc, char **argv) {
 		//bool alarmset = false; 
 		//char alarmsettext[100] = "alarm";
 		//const char* alarmsetonoff = "Off";		
-		if (kDown & KEY_A) {
+		if (kDown & HidNpadButton_A) {
 		alarmsetonoff = "On";	
 		alarmset = true; 
 		}
 		
-		if (kDown & KEY_X) {
+		if (kDown & HidNpadButton_X) {
 		alarmsetonoff = "Off";	
 		alarmset = false; 
 		}
@@ -336,8 +345,9 @@ int main(int argc, char **argv) {
 			
 			
 		//quit by press plus button
-		if (kDown & KEY_PLUS) {
-		quit = true; 
+		if (kDown & HidNpadButton_Plus) {
+		quit = true;
+		consoleUpdate(NULL);		
 		break; 
 		}
 
@@ -356,5 +366,6 @@ int main(int argc, char **argv) {
 	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
+	consoleExit(NULL);
 	return 0;
 }
