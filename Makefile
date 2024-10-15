@@ -41,10 +41,10 @@ DATA		  := dat
 INCLUDES	  := include
 EXEFS_SRC	  := exefs_src
 ROMFS         := romfs
-APP_VERSION   := 1.0
+APP_VERSION   := 1.1
 ICON          := icon.jpg
 
-APP_TITLE     := Clock
+APP_TITLE     := Strobe Alarm Clock
 APP_AUTHOR    := ELY_M
 
 
