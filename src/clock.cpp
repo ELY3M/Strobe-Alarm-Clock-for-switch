@@ -218,10 +218,11 @@ int main(int argc, char **argv) {
 		int hours = timeStruct->tm_hour;
 		int minutes = timeStruct->tm_min;
 		int seconds = timeStruct->tm_sec;
-		int day = timeStruct->tm_mday;
-		int month = timeStruct->tm_mon;
-		int year = timeStruct->tm_year +1900;
-		int wday = timeStruct->tm_wday;
+		//unused 
+		//int day = timeStruct->tm_mday;
+		//int month = timeStruct->tm_mon;
+		//int year = timeStruct->tm_year +1900;
+		//int wday = timeStruct->tm_wday;
 		
 		
 		if (hours <= 12 && hours >= 0) {
