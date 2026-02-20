@@ -165,8 +165,8 @@ $(BUILD):
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) $(OUTDIR)
-
+	@rm -fr $(BUILD) $(OUTDIR) $(TARGET).pfs0 $(TARGET).nso $(TARGET).nro $(TARGET).nacp $(TARGET).elf
+	
 #---------------------------------------------------------------------------------
 else
 .PHONY:	all
